@@ -9,6 +9,10 @@ langchain-openai = "*"
 langchain-community = "*"
 faiss-cpu = "*"
 beautifulsoup4 = "*"
+getpass = "*"
+os = "*"
+python-dotenv = "*"
+textwrap = "*"
 
 [dev-packages]
 

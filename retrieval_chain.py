@@ -47,7 +47,7 @@ retriever = vector.as_retriever()
 retrieval_chain = create_retrieval_chain(retriever, document_chain)   # document chain being part of the retrieval Chain
 
 response = retrieval_chain.invoke({"context": "You are the trainer who is teaching the given course and you are to suggest to potential learners",
-                                   "input": "What are the key takeaways for learners from the Course?"})
+                                    "input": "What are the key takeaways for learners from the Course?"})
 
 print(response["answer"])
 

@@ -1,4 +1,4 @@
-# This program demonstrates a simple usage of creating a LCEL based chain 
+# This program demonstrates a simple usage of creating a LCEL based chain
 # The chain comprises a prompt, the llm object and a Stringoutput parser
 
 from langchain_core.prompts import ChatPromptTemplate
@@ -16,7 +16,7 @@ output_parser = StrOutputParser()
 
 chain = prompt | llm | output_parser
 
-output = chain.invoke({"input": "how can langsmith help with testing?"})
+output = chain.invoke({"input": "how can LangSmith help with testing?"})
 
 print(output)
 
