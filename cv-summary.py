@@ -6,9 +6,6 @@ from langchain.prompts import PromptTemplate
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import CharacterTextSplitter
 
-import textwrap
-
-from dotenv import load_dotenv
 load_dotenv()
 
 import streamlit as st
@@ -16,7 +13,7 @@ import streamlit as st
 def process_docx(docx_file):
     # Add your docx processing code here
     text=""
-    #Docx2txtLoader loads the Document 
+    #Docx2txtLoader loads the Document
     loader=Docx2txtLoader(docx_file)
 
     #Load Documents and split into chunks
@@ -29,12 +26,12 @@ def process_pdf(pdf_file):
     #PYPDFLoader loads a list of PDF Document objects
     loader=PyPDFLoader(pdf_file)
     pages = loader.load()
-        
+
     for page in pages:
         text+=page.page_content
     text= text.replace('\t', ' ')
 
-    #splits a long document into smaller chunks that can fit into the LLM's 
+    #splits a long document into smaller chunks that can fit into the LLM's
     #model's context window
     text_splitter = CharacterTextSplitter(
             separator="\n",
@@ -71,8 +68,8 @@ def main():
             return
 
         llm = OpenAI(temperature=0)
-        prompt_template = """You have been given a Resume to analyse. 
-        Write a verbose detail of the following: 
+        prompt_template = """You have been given a Resume to analyse.
+        Write a verbose detail of the following:
         {text}
         Details:"""
         prompt = PromptTemplate.from_template(prompt_template)

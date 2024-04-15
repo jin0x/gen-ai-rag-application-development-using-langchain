@@ -1,6 +1,6 @@
 # This program is intended to demo the use of the following:
-# - Extracts the contects of a webpage, chunks and loads the chunks (documents) into a FAISS db
-# - Creates a sample conversaion, uses a "create_history_aware_retriever" retrieval chain 
+# - Extracts the contents of a webpage, chunks and loads the chunks (documents) into a FAISS db
+# - Creates a sample conversation, uses a "create_history_aware_retriever" retrieval chain
 # - The last step is to pass the history and ask a follow up question
 
 from langchain_community.document_loaders import WebBaseLoader
@@ -19,7 +19,7 @@ loader = WebBaseLoader("https://www.wikihow.com/Do-Yoga")
 
 docs = loader.load()
 
-# The RecursiveCharacterTextSplitter takes a large text and splits it based on a specified chunk size. 
+# The RecursiveCharacterTextSplitter takes a large text and splits it based on a specified chunk size.
 # It does this by using a set of characters. The default characters provided to it are ["\n\n", "\n", " ", ""].
 text_splitter = RecursiveCharacterTextSplitter()
 
@@ -29,8 +29,8 @@ llm = ChatOpenAI()
 
 embeddings = OpenAIEmbeddings()
 
-# FAISS (Facebook AI Similarity Search) is a library that allows developers to store and search for embeddings of 
-# documents that are similar to each other. 
+# FAISS (Facebook AI Similarity Search) is a library that allows developers to store and search for embeddings of
+# documents that are similar to each other.
 vector = FAISS.from_documents(documents, embeddings)
 
 retriever = vector.as_retriever()
@@ -42,18 +42,20 @@ prompt = ChatPromptTemplate.from_messages([
     ("user", "{input}"),
     ("user", "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation")
 ])
-# If there is no chat_history, then the input is just passed directly to the retriever. If there is chat_history, then the prompt and LLM 
+# If there is no chat_history, then the input is just passed directly to the retriever. If there is chat_history, then the prompt and LLM
 # will be used to generate a search query. That search query is then passed to the retriever.
 retriever_chain = create_history_aware_retriever(llm, retriever, prompt)
 
-sample_answer = """Some key points for Yoga begginners are:
+sample_answer = """Some key points for Yoga beginners are:
     1. Find a comfortable place and time to practice.
     2. Set a routine that suits you.
     and so on..
     ."""
 
-chat_history = [HumanMessage(content="What are the key things to consider for someone starting to practice Yoga?"), 
+chat_history = [HumanMessage(content="What are the key things to consider for someone starting to practice Yoga?"),
                 AIMessage(content=sample_answer)]
+
+print(chat_history)
 
 prompt = ChatPromptTemplate.from_messages([
     ("system", "Answer the user's questions based on the below context:\n\n{context}"),
@@ -62,6 +64,7 @@ prompt = ChatPromptTemplate.from_messages([
 ])
 document_chain = create_stuff_documents_chain(llm, prompt)
 
+
 retrieval_chain = create_retrieval_chain(retriever_chain, document_chain)
 
 output = retrieval_chain.invoke({
@@ -69,4 +72,5 @@ output = retrieval_chain.invoke({
     "input": "Can you elaborate on the first point?"
 })
 
+print("\n\n\n\n")
 print(output["answer"])

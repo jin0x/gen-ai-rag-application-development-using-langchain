@@ -13,6 +13,8 @@ getpass = "*"
 os = "*"
 python-dotenv = "*"
 textwrap = "*"
+python-dotenvp = "*"
+dotenv = "*"
 
 [dev-packages]
 

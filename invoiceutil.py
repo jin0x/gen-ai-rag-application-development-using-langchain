@@ -13,14 +13,14 @@ llm = ChatOpenAI(
     max_tokens=2000
 )
 
-# import neccessary packages from korr
+# import necessary packages from kor
 from kor.extraction import create_extraction_chain
 from kor.nodes import Object, Text, Number
 
 # iterate over files in
 # that user uploaded PDF files, one by one
 def create_docs(user_pdf_list):
-    """This function is used to extract the invoice data from the given PDF files. 
+    """This function is used to extract the invoice data from the given PDF files.
     It uses the LangChain agent to extract the data from the given PDF files."""
     df = pd.DataFrame({'Invoice no.': pd.Series(dtype='str'),
                    'Description': pd.Series(dtype='str'),
@@ -43,12 +43,12 @@ def create_docs(user_pdf_list):
         for page in pdf_reader.pages:
             texts += page.extract_text()
 
-        template = """Extract all the following values : invoice no., Description, Quantity, date, 
-            Unit price , Amount, Total, email, phone number and address from the following Invoice content: 
+        template = """Extract all the following values : invoice no., Description, Quantity, date,
+            Unit price , Amount, Total, email, phone number and address from the following Invoice content:
             {texts}
             The fields and values in the above content may be jumbled up as they are extracted from a PDF. Please use your judgement to align
             the fields and values correctly based on the fields asked for in the question abiove.
-            Expected output format: 
+            Expected output format:
             {{'Invoice no.': xxxxxxxx','Description': 'xxxxxx','Quantity': 'x','Date': 'dd/mm/yyyy',
             'Unit price': xxx.xx','Amount': 'xxx.xx,'Total': xxx,xx,'Email': 'xxx@xxx.xxx','Phone number': 'xxxxxxxxxx','Address': 'xxxxxxxxx'}}
             Remove any dollar symbols or currency symbols from the extracted values.
@@ -63,10 +63,10 @@ def create_docs(user_pdf_list):
 
         print("Dict:...", data_dict)
         new_row_df = pd.DataFrame([eval(data_dict)], columns=df.columns)
-        df = pd.concat([df, new_row_df], ignore_index=True)  
+        df = pd.concat([df, new_row_df], ignore_index=True)
 
         print("********************DONE***************")
 
-    print(df) 
+    print(df)
     return df
 

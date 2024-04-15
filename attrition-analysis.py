@@ -20,7 +20,7 @@ def main():
     st.markdown(
         """
         This chatbot was created to answer questions from a set of Attrition data from your organisation.
-        Ask a question and the chatbot will respond with appropriete Analysis.
+        Ask a question and the chatbot will respond with appropriate Analysis.
         """
     )
     st.write(df.head())
